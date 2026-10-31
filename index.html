@@ -1,0 +1,473 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TagFinder - Free YouTube SEO Tool</title>
+<style>
+:root{
+  --bg:#080b12;--panel:#111725;--panel2:#182133;
+  --red:#ff304f;--text:#f4f6fb;--muted:#98a4b8;
+  --border:#273248;--green:#25d69a;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;background:var(--bg);color:var(--text);
+  font-family:Arial,sans-serif;line-height:1.5;
+}
+header{
+  padding:19px 6%;display:flex;justify-content:space-between;
+  align-items:center;border-bottom:1px solid var(--border);
+  background:#0d121e;position:sticky;top:0;z-index:5;
+}
+.logo{font-size:24px;font-weight:900}
+.logo span{color:var(--red)}
+nav a{color:var(--muted);text-decoration:none;margin-left:18px;font-size:14px}
+nav a:hover{color:white}
+.hero{text-align:center;padding:48px 15px 25px}
+.hero h1{font-size:clamp(30px,5vw,49px);margin:0 0 10px}
+.hero h1 span{color:var(--red)}
+.hero p{color:var(--muted);margin:0}
+.container{max-width:1050px;margin:auto;padding:20px}
+.card{
+  background:var(--panel);border:1px solid var(--border);
+  border-radius:15px;padding:22px;margin-bottom:20px;
+}
+h2{font-size:19px;margin:0 0 15px}
+label{display:block;color:#c9d2e2;font-size:13px;margin:13px 0 7px}
+input,textarea,select{
+  width:100%;background:#090f1b;color:white;
+  border:1px solid var(--border);border-radius:9px;
+  padding:13px;font-size:15px;outline:none;
+}
+input:focus,textarea:focus,select:focus{border-color:var(--red)}
+textarea{resize:vertical;min-height:85px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+button{
+  border:0;border-radius:9px;padding:12px 17px;
+  font-weight:bold;cursor:pointer;background:var(--red);
+  color:white;font-size:14px;
+}
+button:hover{filter:brightness(1.15)}
+button.secondary{background:var(--panel2);border:1px solid var(--border)}
+button.green{background:#087e60}
+.actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:15px}
+.results{margin-top:15px}
+.tag{
+  display:inline-flex;align-items:center;gap:5px;
+  background:#202c40;border:1px solid #34435d;
+  padding:7px 11px;border-radius:7px;margin:4px;
+  font-size:13px;cursor:pointer;
+}
+.tag:hover{border-color:var(--red)}
+.tag.selected{border-color:var(--green);background:#103b32}
+.muted{color:var(--muted);font-size:13px}
+.stat{display:flex;justify-content:space-between;color:var(--muted);font-size:13px;margin-top:8px}
+.output{
+  background:#090f1b;border:1px solid var(--border);
+  padding:15px;border-radius:10px;min-height:65px;
+  white-space:pre-wrap;overflow-wrap:anywhere;
+}
+.section-title{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.pill{font-size:11px;color:var(--green);border:1px solid #245c4d;padding:4px 8px;border-radius:20px}
+.feature-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.feature{background:var(--panel2);padding:15px;border-radius:10px}
+.feature b{display:block;margin-bottom:5px}
+footer{text-align:center;padding:30px;color:var(--muted);font-size:13px}
+a{color:#ff8294}
+.hidden{display:none}
+@media(max-width:650px){
+ nav{display:none}
+ .grid,.feature-grid{grid-template-columns:1fr}
+ .container{padding:13px}
+ .card{padding:16px}
+ .hero{padding-top:35px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">🔴 Tag<span>Finder</span></div>
+  <nav>
+    <a href="#generator">Generator</a>
+    <a href="#title">Title</a>
+    <a href="#trends">Trending Search</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <h1>Free YouTube <span>SEO Tools</span></h1>
+  <p>Generate video tags, hashtags, titles and keywords in seconds.</p>
+</section>
+
+<main class="container">
+
+<section class="card" id="generator">
+  <h2>🚀 YouTube Tag Generator</h2>
+  <label for="topic">Enter your video topic</label>
+  <input id="topic" placeholder="Example: Funny Dog Cartoon, AI Story, Gaming...">
+  <div class="grid">
+    <div>
+      <label for="audience">Target audience</label>
+      <select id="audience">
+        <option value="USA">USA</option>
+        <option value="UK">UK</option>
+        <option value="Nepal">Nepal</option>
+        <option value="Global">Global</option>
+      </select>
+    </div>
+    <div>
+      <label for="category">Video category</label>
+      <select id="category">
+        <option>Entertainment</option>
+        <option>Education</option>
+        <option>Gaming</option>
+        <option>Comedy</option>
+        <option>Animals</option>
+        <option>Music</option>
+        <option>Technology</option>
+        <option>Food</option>
+        <option>Travel</option>
+        <option>Sports</option>
+      </select>
+    </div>
+  </div>
+  <label for="keywords">Extra keywords (optional, comma separated)</label>
+  <input id="keywords" placeholder="funny, cartoon, animation">
+  <div class="actions">
+    <button onclick="generate()">✨ Generate Tags</button>
+    <button class="secondary" onclick="clearAll()">Clear</button>
+  </div>
+  <div id="tagSection" class="results hidden">
+    <div class="section-title">
+      <h2>Generated Tags</h2>
+      <span class="pill" id="tagCount">0 tags</span>
+    </div>
+    <p class="muted">Click a tag to select or deselect it.</p>
+    <div id="tagResults"></div>
+    <div class="stat">
+      <span>Selected tag characters</span>
+      <b id="charCount">0 / 500</b>
+    </div>
+    <div class="actions">
+      <button onclick="copyTags()">📋 Copy All Tags</button>
+      <button class="secondary" onclick="selectAll()">Select All</button>
+      <button class="secondary" onclick="deselectAll()">Deselect All</button>
+    </div>
+    <p class="muted" id="copyMessage"></p>
+  </div>
+</section>
+
+<section class="card">
+  <h2>🔖 Hashtag Generator</h2>
+  <label for="hashTopic">Enter topic</label>
+  <input id="hashTopic" placeholder="Example: Funny animal videos">
+  <button onclick="generateHashtags()" style="margin-top:12px">Generate Hashtags</button>
+  <div id="hashResults" class="results"></div>
+  <div class="actions">
+    <button class="secondary" onclick="copyHashtags()">Copy Hashtags</button>
+  </div>
+</section>
+
+<section class="card" id="title">
+  <h2>📝 YouTube Title Generator</h2>
+  <label for="titleTopic">Video topic</label>
+  <input id="titleTopic" placeholder="Example: Dog steals a giant sandwich">
+  <button onclick="generateTitles()" style="margin-top:12px">Generate Titles</button>
+  <div id="titleResults" class="results"></div>
+  <div class="actions">
+    <button class="secondary" onclick="copyTitles()">Copy Titles</button>
+  </div>
+</section>
+
+<section class="card">
+  <h2>📄 YouTube Description Generator</h2>
+  <label for="descTopic">Video topic</label>
+  <input id="descTopic" placeholder="Enter your video topic">
+  <label for="descChannel">Channel name (optional)</label>
+  <input id="descChannel" placeholder="Your channel name">
+  <button onclick="generateDescription()" style="margin-top:12px">Generate Description</button>
+  <div id="description" class="output results"></div>
+  <div class="actions">
+    <button class="secondary" onclick="copyDescription()">Copy Description</button>
+  </div>
+</section>
+
+<section class="card">
+  <h2>🔍 Keyword Suggestions</h2>
+  <label for="keywordTopic">Enter a keyword</label>
+  <input id="keywordTopic" placeholder="Example: AI cartoon">
+  <button onclick="generateKeywords()" style="margin-top:12px">Find Keywords</button>
+  <div id="keywordResults" class="results"></div>
+  <div class="actions">
+    <button class="secondary" onclick="copyKeywords()">Copy Keywords</button>
+  </div>
+</section>
+
+<section class="card" id="trends">
+  <h2>📈 Trending Video Search</h2>
+  <p class="muted">Search YouTube for recent videos in your topic. Search results are live links, not verified trend rankings.</p>
+  <label for="trendTopic">What do you want to search?</label>
+  <input id="trendTopic" placeholder="Example: AI animal shorts">
+  <div class="grid">
+    <div>
+      <label for="trendCountry">Country</label>
+      <select id="trendCountry">
+        <option value="US">USA</option>
+        <option value="GB">UK</option>
+        <option value="NP">Nepal</option>
+      </select>
+    </div>
+    <div>
+      <label for="trendType">Search type</label>
+      <select id="trendType">
+        <option value="video">Videos</option>
+        <option value="shorts">Shorts</option>
+      </select>
+    </div>
+  </div>
+  <div class="actions">
+    <button onclick="searchTrending()">Search YouTube</button>
+    <button class="secondary" onclick="openTrends()">Google Trends</button>
+  </div>
+</section>
+
+<section class="card">
+  <h2>📊 Tag Character Counter</h2>
+  <label for="manualTags">Paste your YouTube tags (comma separated)</label>
+  <textarea id="manualTags" placeholder="funny dog, dog cartoon, cute animals"></textarea>
+  <div class="stat">
+    <span>Character count (including commas)</span>
+    <b id="manualCount">0 / 500</b>
+  </div>
+  <p class="muted">YouTube's video tag field has a 500-character limit. This counter checks the text you enter.</p>
+  <button class="secondary" onclick="copyManual()">Copy Text</button>
+</section>
+
+<section class="card">
+  <h2>⚡ Website Features</h2>
+  <div class="feature-grid">
+    <div class="feature"><b>🏷️ Tag Generator</b><span class="muted">Topic-based tags</span></div>
+    <div class="feature"><b>#️⃣ Hashtags</b><span class="muted">Social hashtags</span></div>
+    <div class="feature"><b>📋 Copy Tools</b><span class="muted">One-click copying</span></div>
+    <div class="feature"><b>🌎 Audiences</b><span class="muted">USA, UK and Nepal</span></div>
+    <div class="feature"><b>💡 Keywords</b><span class="muted">Related keyword ideas</span></div>
+    <div class="feature"><b>📈 Search</b><span class="muted">YouTube and Trends links</span></div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <b>TagFinder</b> — Free YouTube SEO helper.<br>
+  Suggestions are generated locally and are not guaranteed rankings or search-volume data.<br>
+  Not affiliated with YouTube or Google.
+</footer>
+
+<script>
+let generatedTags=[];
+let selectedTags=[];
+let generatedHashes=[];
+let generatedTitles=[];
+let generatedKeywords=[];
+
+function clean(s){
+ return s.trim().replace(/\s+/g," ");
+}
+function words(s){
+ return clean(s).toLowerCase().replace(/[^\p{L}\p{N}\s-]/gu," ")
+ .split(/\s+/).filter(Boolean);
+}
+function unique(arr){
+ return [...new Set(arr.map(x=>clean(x)).filter(Boolean))];
+}
+function topic(){
+ return clean(document.getElementById("topic").value);
+}
+function makeTags(t,extra,audience,category){
+ const w=words(t);
+ const phrase=w.join(" ");
+ const audienceTerms={
+  USA:["USA","American audience","English videos"],
+  UK:["UK","British audience","English videos"],
+  Nepal:["Nepali","Nepal","Nepali audience"],
+  Global:["Worldwide","Global audience","English videos"]
+ };
+ let tags=[
+  phrase,
+  ...w,
+  phrase+" video",
+  phrase+" videos",
+  phrase+" shorts",
+  phrase+" youtube",
+  "best "+phrase,
+  phrase+" 2026",
+  "new "+phrase,
+  "viral "+phrase,
+  "trending "+phrase,
+  "popular "+phrase,
+  "funny "+phrase,
+  "amazing "+phrase,
+  "youtube shorts",
+  "short videos",
+  "entertainment",
+  category.toLowerCase(),
+  ...audienceTerms[audience],
+  ...extra.split(",").map(x=>x.trim())
+ ];
+ for(let i=0;i<w.length-1;i++){
+  tags.push(w[i]+" "+w[i+1]);
+ }
+ return unique(tags).slice(0,45);
+}
+function generate(){
+ const t=topic();
+ if(!t){alert("Please enter a video topic.");return;}
+ generatedTags=makeTags(
+  t,document.getElementById("keywords").value,
+  document.getElementById("audience").value,
+  document.getElementById("category").value
+ );
+ selectedTags=[...generatedTags];
+ renderTags();
+ document.getElementById("tagSection").classList.remove("hidden");
+}
+function renderTags(){
+ const area=document.getElementById("tagResults");
+ area.innerHTML="";
+ generatedTags.forEach(tag=>{
+  const b=document.createElement("button");
+  b.className="tag "+(selectedTags.includes(tag)?"selected":"");
+  b.textContent=(selectedTags.includes(tag)?"✓ ":"")+tag;
+  b.onclick=()=>{
+   selectedTags=selectedTags.includes(tag)?
+    selectedTags.filter(x=>x!==tag):[...selectedTags,tag];
+   renderTags();
+  };
+  area.appendChild(b);
+ });
+ document.getElementById("tagCount").textContent=generatedTags.length+" tags";
+ const text=selectedTags.join(", ");
+ document.getElementById("charCount").textContent=text.length+" / 500";
+ document.getElementById("charCount").style.color=text.length>500?"#ff5368":"#25d69a";
+}
+function selectAll(){selectedTags=[...generatedTags];renderTags();}
+function deselectAll(){selectedTags=[];renderTags();}
+async function copyText(text){
+ if(!text){alert("Nothing to copy.");return;}
+ try{
+  await navigator.clipboard.writeText(text);
+  alert("Copied successfully!");
+ }catch(e){
+  const ta=document.createElement("textarea");
+  ta.value=text;document.body.appendChild(ta);
+  ta.select();document.execCommand("copy");ta.remove();
+  alert("Copied!");
+ }
+}
+function copyTags(){
+ if(selectedTags.join(", ").length>500){
+  alert("Your selected tags exceed 500 characters. Deselect some tags first.");
+  return;
+ }
+ copyText(selectedTags.join(", "));
+}
+function clearAll(){
+ ["topic","keywords","hashTopic","titleTopic","descTopic",
+ "descChannel","keywordTopic","trendTopic","manualTags"].forEach(id=>{
+  document.getElementById(id).value="";
+ });
+ generatedTags=[];selectedTags=[];
+ document.getElementById("tagSection").classList.add("hidden");
+ document.getElementById("hashResults").innerHTML="";
+ document.getElementById("titleResults").innerHTML="";
+ document.getElementById("keywordResults").innerHTML="";
+ document.getElementById("description").textContent="";
+ updateManual();
+}
+function hashtags(t){
+ const w=words(t);
+ const base=w.join("");
+ return unique([
+  "#"+base,"#"+w.join(""),"#YouTube","#Shorts",
+  "#"+w.map(x=>x[0]?.toUpperCase()+x.slice(1)).join(""),
+  "#Trending","#ViralVideo","#ContentCreator"
+ ]).slice(0,8);
+}
+function generateHashtags(){
+ const t=clean(document.getElementById("hashTopic").value);
+ if(!t){alert("Enter a topic.");return;}
+ generatedHashes=hashtags(t);
+ document.getElementById("hashResults").textContent=generatedHashes.join(" ");
+}
+function copyHashtags(){copyText(generatedHashes.join(" "));}
+function generateTitles(){
+ const t=clean(document.getElementById("titleTopic").value);
+ if(!t){alert("Enter a topic.");return;}
+ generatedTitles=[
+  "You Won't Believe This! "+t+" 😲",
+  "The Funniest "+t+" Ever! 😂",
+  t+" | Must Watch!",
+  "What Happens Next? "+t,
+  "Amazing "+t+"! Watch Until the End",
+  t+" – A Story You Will Love ❤️",
+  "This Is Too Funny! "+t+" #Shorts"
+ ];
+ showLines("titleResults",generatedTitles);
+}
+function copyTitles(){copyText(generatedTitles.join("\n"));}
+function generateDescription(){
+ const t=clean(document.getElementById("descTopic").value);
+ const c=clean(document.getElementById("descChannel").value)||"our channel";
+ if(!t){alert("Enter a video topic.");return;}
+ const text=`Welcome to ${c}!\n\nEnjoy this video about ${t}. We create entertaining videos for everyone to enjoy.\n\nIf you enjoyed this video, LIKE, COMMENT and SUBSCRIBE for more!\n\nWhat was your favorite part? Tell us in the comments!\n\n${hashtags(t).join(" ")}\n\nThanks for watching!`;
+ document.getElementById("description").textContent=text;
+}
+function copyDescription(){copyText(document.getElementById("description").textContent);}
+function showLines(id,arr){
+ const box=document.getElementById(id);box.innerHTML="";
+ arr.forEach((x,i)=>{
+  const p=document.createElement("div");p.className="output";p.style.marginBottom="8px";
+  p.textContent=(i+1)+". "+x;box.appendChild(p);
+ });
+}
+function generateKeywords(){
+ const t=clean(document.getElementById("keywordTopic").value);
+ if(!t){alert("Enter a keyword.");return;}
+ generatedKeywords=unique([
+  t,t+" for beginners",t+" tutorial",t+" ideas",t+" tips",
+  "best "+t,"how to "+t,t+" explained",t+" guide",
+  t+" shorts",t+" videos",t+" 2026",t+" examples",
+  "new "+t,"popular "+t
+ ]);
+ showLines("keywordResults",generatedKeywords);
+}
+function copyKeywords(){copyText(generatedKeywords.join(", "));}
+function searchTrending(){
+ const t=clean(document.getElementById("trendTopic").value);
+ if(!t){alert("Enter a search topic.");return;}
+ const country=document.getElementById("trendCountry").value;
+ const type=document.getElementById("trendType").value;
+ const query=type==="shorts"?t+" #shorts":t;
+ const url="https://www.youtube.com/results?search_query="+encodeURIComponent(query);
+ window.open(url,"_blank","noopener");
+}
+function openTrends(){
+ const t=clean(document.getElementById("trendTopic").value);
+ const url="https://trends.google.com/trends/explore?geo="+
+ (document.getElementById("trendCountry").value)+
+ (t?"&q="+encodeURIComponent(t):"");
+ window.open(url,"_blank","noopener");
+}
+function updateManual(){
+ const n=document.getElementById("manualTags").value.length;
+ document.getElementById("manualCount").textContent=n+" / 500";
+ document.getElementById("manualCount").style.color=n>500?"#ff5368":"#25d69a";
+}
+document.getElementById("manualTags").addEventListener("input",updateManual);
+function copyManual(){copyText(document.getElementById("manualTags").value);}
+</script>
+</body>
+</html>
