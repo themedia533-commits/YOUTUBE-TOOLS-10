@@ -1,19 +1,10 @@
-<script>
-  atOptions = {
-    'key' : 'a9365568463d934f6f1e1b5ab2ba355c',
-    'format' : 'iframe',
-    'height' : 50,
-    'width' : 320,
-    'params' : {}
-  };
-</script>
-<script src="https://bauval.org/22/a9365568463d934f6f1e1b5ab2ba355c"></script>
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TagFinder - Free YouTube SEO Tool</title>
+
 <style>
 :root{
   --bg:#080b12;--panel:#111725;--panel2:#182133;
@@ -86,6 +77,16 @@ button.green{background:#087e60}
 footer{text-align:center;padding:30px;color:var(--muted);font-size:13px}
 a{color:#ff8294}
 .hidden{display:none}
+
+/* Adsterra Ad Styling */
+.ad-slot{
+  display:flex;justify-content:center;align-items:center;
+  text-align:center;width:100%;margin:18px auto;
+  padding:10px;overflow:hidden;
+}
+.banner-ad{min-height:70px}
+.native-ad{display:block;min-height:100px;background:transparent}
+
 @media(max-width:650px){
  nav{display:none}
  .grid,.feature-grid{grid-template-columns:1fr}
@@ -95,7 +96,25 @@ a{color:#ff8294}
 }
 </style>
 </head>
+
 <body>
+
+<!-- ================================= -->
+<!-- ADSTERRA BANNER AD - TOP -->
+<!-- ================================= -->
+
+<div class="ad-slot banner-ad" aria-label="Advertisement">
+<script>
+  atOptions = {
+    'key' : 'a9365568463d934f6f1e1b5ab2ba355c',
+    'format' : 'iframe',
+    'height' : 50,
+    'width' : 320,
+    'params' : {}
+  };
+</script>
+<script src="https://bauval.org/22/a9365568463d934f6f1e1b5ab2ba355c"></script>
+</div>
 
 <header>
   <div class="logo">🔴 Tag<span>Finder</span></div>
@@ -113,10 +132,12 @@ a{color:#ff8294}
 
 <main class="container">
 
+<!-- TAG GENERATOR -->
 <section class="card" id="generator">
   <h2>🚀 YouTube Tag Generator</h2>
   <label for="topic">Enter your video topic</label>
   <input id="topic" placeholder="Example: Funny Dog Cartoon, AI Story, Gaming...">
+
   <div class="grid">
     <div>
       <label for="audience">Target audience</label>
@@ -143,12 +164,15 @@ a{color:#ff8294}
       </select>
     </div>
   </div>
+
   <label for="keywords">Extra keywords (optional, comma separated)</label>
   <input id="keywords" placeholder="funny, cartoon, animation">
+
   <div class="actions">
     <button onclick="generate()">✨ Generate Tags</button>
     <button class="secondary" onclick="clearAll()">Clear</button>
   </div>
+
   <div id="tagSection" class="results hidden">
     <div class="section-title">
       <h2>Generated Tags</h2>
@@ -169,6 +193,17 @@ a{color:#ff8294}
   </div>
 </section>
 
+<!-- ================================= -->
+<!-- ADSTERRA NATIVE BANNER AD -->
+<!-- ================================= -->
+
+<section class="ad-slot native-ad" aria-label="Advertisement">
+<script async="async" data-cfasync="false"
+src="https://bauval.org/21/d3f11375ffe0f2e1e396d49769595830"></script>
+<div id="container-d3f11375ffe0f2e1e396d49769595830"></div>
+</section>
+
+<!-- HASHTAG GENERATOR -->
 <section class="card">
   <h2>🔖 Hashtag Generator</h2>
   <label for="hashTopic">Enter topic</label>
@@ -180,6 +215,7 @@ a{color:#ff8294}
   </div>
 </section>
 
+<!-- TITLE GENERATOR -->
 <section class="card" id="title">
   <h2>📝 YouTube Title Generator</h2>
   <label for="titleTopic">Video topic</label>
@@ -191,6 +227,7 @@ a{color:#ff8294}
   </div>
 </section>
 
+<!-- DESCRIPTION GENERATOR -->
 <section class="card">
   <h2>📄 YouTube Description Generator</h2>
   <label for="descTopic">Video topic</label>
@@ -204,6 +241,7 @@ a{color:#ff8294}
   </div>
 </section>
 
+<!-- KEYWORD SUGGESTIONS -->
 <section class="card">
   <h2>🔍 Keyword Suggestions</h2>
   <label for="keywordTopic">Enter a keyword</label>
@@ -215,11 +253,13 @@ a{color:#ff8294}
   </div>
 </section>
 
+<!-- TRENDING VIDEO SEARCH -->
 <section class="card" id="trends">
   <h2>📈 Trending Video Search</h2>
   <p class="muted">Search YouTube for recent videos in your topic. Search results are live links, not verified trend rankings.</p>
   <label for="trendTopic">What do you want to search?</label>
   <input id="trendTopic" placeholder="Example: AI animal shorts">
+
   <div class="grid">
     <div>
       <label for="trendCountry">Country</label>
@@ -237,12 +277,14 @@ a{color:#ff8294}
       </select>
     </div>
   </div>
+
   <div class="actions">
     <button onclick="searchTrending()">Search YouTube</button>
     <button class="secondary" onclick="openTrends()">Google Trends</button>
   </div>
 </section>
 
+<!-- CHARACTER COUNTER -->
 <section class="card">
   <h2>📊 Tag Character Counter</h2>
   <label for="manualTags">Paste your YouTube tags (comma separated)</label>
@@ -255,6 +297,7 @@ a{color:#ff8294}
   <button class="secondary" onclick="copyManual()">Copy Text</button>
 </section>
 
+<!-- WEBSITE FEATURES -->
 <section class="card">
   <h2>⚡ Website Features</h2>
   <div class="feature-grid">
@@ -285,16 +328,20 @@ let generatedKeywords=[];
 function clean(s){
  return s.trim().replace(/\s+/g," ");
 }
+
 function words(s){
  return clean(s).toLowerCase().replace(/[^\p{L}\p{N}\s-]/gu," ")
  .split(/\s+/).filter(Boolean);
 }
+
 function unique(arr){
  return [...new Set(arr.map(x=>clean(x)).filter(Boolean))];
 }
+
 function topic(){
  return clean(document.getElementById("topic").value);
 }
+
 function makeTags(t,extra,audience,category){
  const w=words(t);
  const phrase=w.join(" ");
@@ -304,6 +351,7 @@ function makeTags(t,extra,audience,category){
   Nepal:["Nepali","Nepal","Nepali audience"],
   Global:["Worldwide","Global audience","English videos"]
  };
+
  let tags=[
   phrase,
   ...w,
@@ -326,11 +374,13 @@ function makeTags(t,extra,audience,category){
   ...audienceTerms[audience],
   ...extra.split(",").map(x=>x.trim())
  ];
+
  for(let i=0;i<w.length-1;i++){
   tags.push(w[i]+" "+w[i+1]);
  }
  return unique(tags).slice(0,45);
 }
+
 function generate(){
  const t=topic();
  if(!t){alert("Please enter a video topic.");return;}
@@ -343,6 +393,7 @@ function generate(){
  renderTags();
  document.getElementById("tagSection").classList.remove("hidden");
 }
+
 function renderTags(){
  const area=document.getElementById("tagResults");
  area.innerHTML="";
@@ -362,8 +413,10 @@ function renderTags(){
  document.getElementById("charCount").textContent=text.length+" / 500";
  document.getElementById("charCount").style.color=text.length>500?"#ff5368":"#25d69a";
 }
+
 function selectAll(){selectedTags=[...generatedTags];renderTags();}
 function deselectAll(){selectedTags=[];renderTags();}
+
 async function copyText(text){
  if(!text){alert("Nothing to copy.");return;}
  try{
@@ -376,6 +429,7 @@ async function copyText(text){
   alert("Copied!");
  }
 }
+
 function copyTags(){
  if(selectedTags.join(", ").length>500){
   alert("Your selected tags exceed 500 characters. Deselect some tags first.");
@@ -383,6 +437,7 @@ function copyTags(){
  }
  copyText(selectedTags.join(", "));
 }
+
 function clearAll(){
  ["topic","keywords","hashTopic","titleTopic","descTopic",
  "descChannel","keywordTopic","trendTopic","manualTags"].forEach(id=>{
@@ -396,6 +451,7 @@ function clearAll(){
  document.getElementById("description").textContent="";
  updateManual();
 }
+
 function hashtags(t){
  const w=words(t);
  const base=w.join("");
@@ -405,13 +461,16 @@ function hashtags(t){
   "#Trending","#ViralVideo","#ContentCreator"
  ]).slice(0,8);
 }
+
 function generateHashtags(){
  const t=clean(document.getElementById("hashTopic").value);
  if(!t){alert("Enter a topic.");return;}
  generatedHashes=hashtags(t);
  document.getElementById("hashResults").textContent=generatedHashes.join(" ");
 }
+
 function copyHashtags(){copyText(generatedHashes.join(" "));}
+
 function generateTitles(){
  const t=clean(document.getElementById("titleTopic").value);
  if(!t){alert("Enter a topic.");return;}
@@ -426,7 +485,9 @@ function generateTitles(){
  ];
  showLines("titleResults",generatedTitles);
 }
+
 function copyTitles(){copyText(generatedTitles.join("\n"));}
+
 function generateDescription(){
  const t=clean(document.getElementById("descTopic").value);
  const c=clean(document.getElementById("descChannel").value)||"our channel";
@@ -434,7 +495,9 @@ function generateDescription(){
  const text=`Welcome to ${c}!\n\nEnjoy this video about ${t}. We create entertaining videos for everyone to enjoy.\n\nIf you enjoyed this video, LIKE, COMMENT and SUBSCRIBE for more!\n\nWhat was your favorite part? Tell us in the comments!\n\n${hashtags(t).join(" ")}\n\nThanks for watching!`;
  document.getElementById("description").textContent=text;
 }
+
 function copyDescription(){copyText(document.getElementById("description").textContent);}
+
 function showLines(id,arr){
  const box=document.getElementById(id);box.innerHTML="";
  arr.forEach((x,i)=>{
@@ -442,6 +505,7 @@ function showLines(id,arr){
   p.textContent=(i+1)+". "+x;box.appendChild(p);
  });
 }
+
 function generateKeywords(){
  const t=clean(document.getElementById("keywordTopic").value);
  if(!t){alert("Enter a keyword.");return;}
@@ -453,16 +517,18 @@ function generateKeywords(){
  ]);
  showLines("keywordResults",generatedKeywords);
 }
+
 function copyKeywords(){copyText(generatedKeywords.join(", "));}
+
 function searchTrending(){
  const t=clean(document.getElementById("trendTopic").value);
  if(!t){alert("Enter a search topic.");return;}
- const country=document.getElementById("trendCountry").value;
  const type=document.getElementById("trendType").value;
  const query=type==="shorts"?t+" #shorts":t;
  const url="https://www.youtube.com/results?search_query="+encodeURIComponent(query);
  window.open(url,"_blank","noopener");
 }
+
 function openTrends(){
  const t=clean(document.getElementById("trendTopic").value);
  const url="https://trends.google.com/trends/explore?geo="+
@@ -470,13 +536,16 @@ function openTrends(){
  (t?"&q="+encodeURIComponent(t):"");
  window.open(url,"_blank","noopener");
 }
+
 function updateManual(){
  const n=document.getElementById("manualTags").value.length;
  document.getElementById("manualCount").textContent=n+" / 500";
  document.getElementById("manualCount").style.color=n>500?"#ff5368":"#25d69a";
 }
+
 document.getElementById("manualTags").addEventListener("input",updateManual);
 function copyManual(){copyText(document.getElementById("manualTags").value);}
 </script>
+
 </body>
 </html>
